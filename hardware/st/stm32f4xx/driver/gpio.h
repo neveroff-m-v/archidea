@@ -2,9 +2,16 @@ namespace gpio_mode
 {
 	enum
 	{
+		/// gpio mode input
 		input = 0x0,
+
+		/// gpio mode output
 		output = 0x1,
+
+		/// gpio mode alternative function (see reference manual)
 		alternative_function = 0x2,
+
+		/// gpio mode analog (adc)
 		analog = 0x3
 	};
 }

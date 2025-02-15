@@ -1,8 +1,18 @@
+namespace index
+{
+	enum
+	{
+		/// index not found
+		not_found = -1,
+	};
+}
+
 /**
 * \brief static methods for manipulating an array of primitive types
 */
 class buffer
 {
+public:
 	/**
 	* \brief copies a specified number of elements [size] from a source array [src] starting at a definite offset [src_offset] to a destination array [dst] starting at a definite offset [dst_offset]
 	* \param [dst] destination array
@@ -49,6 +59,12 @@ class buffer
 	*/
 	template <typename type>
 	static u32 del(type** dst, u32 dst_size, u32 from, u32 to);
+
+	template <typename type>
+	static u32 index(type** dst, u32 dst_size, u32 dst_offset, type** src, u32 src_size);
+
+	template <typename type>
+	static u32 find(type** dst, u32 dst_size, u32 dst_offset, type** src, u32 src_size);
 };
 
 template <typename type>
@@ -104,4 +120,50 @@ u32 buffer::del(type** dst, u32 dst_size, u32 from, u32 to)
 	*dst = dst_array;
 
 	return dst_size - (to - from);
+}
+
+template <typename type>
+u32 buffer::index(type** dst, u32 dst_size, u32 dst_offset, type** src, u32 src_size)
+{
+	dst_size -= src_size;
+	for (u32 i = dst_offset; i < dst_size; i++)
+	{
+		for (u32 j = 0; j < src_size; j++)
+		{
+			if ((*dst)[i + j] != (*src)[j])
+			{
+				break;
+			}
+			if (j + 1 == src_size) 
+			{
+				return i;
+			}
+		}
+	}
+
+	return index::not_found;
+}
+
+template <typename type>
+u32 buffer::find(type** dst, u32 dst_size, u32 dst_offset, type** src, u32 src_size)
+{
+	u32 count = 0;
+
+	dst_size -= src_size;
+	for (u32 i = dst_offset; i < dst_size; i++)
+	{
+		for (u32 j = 0; j < src_size; j++)
+		{
+			if ((*dst)[i + j] != (*src)[j])
+			{
+				break;
+			}
+			if (j + 1 == src_size)
+			{
+				count++;
+			}
+		}
+	}
+
+	return count;
 }
