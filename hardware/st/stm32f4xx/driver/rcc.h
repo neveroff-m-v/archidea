@@ -7,7 +7,7 @@ struct rcc_config
 		u8 pll_i2s_on : 1;
 		u8 pll_ready : 1;
 		u8 pll_on : 1;
-		u8 reserved_0 : 4;
+		u8 reserved_1 : 4;
 		u8 css_on : 1;
 		u8 hse_bypass : 1;
 		u8 hse_ready : 1;
@@ -29,5 +29,5 @@ public:
 
 void rcc_driver::get_config(rcc_config* conf)
 {
-	conf->control = hardware.rcc->cr;
+	//conf->control = hardware.rcc->cr;
 }

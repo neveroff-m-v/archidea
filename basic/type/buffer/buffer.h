@@ -4,7 +4,7 @@
 class buffer
 {
 	/**
-	* \brief copies a specified number of elements [size] from a source array [src] starting at a definite offset [src_offset] to a destination array [dst] starting at a definite offset [dst_offset].
+	* \brief copies a specified number of elements [size] from a source array [src] starting at a definite offset [src_offset] to a destination array [dst] starting at a definite offset [dst_offset]
 	* \param [dst] destination array
 	* \param [dst_offset] destination array's offset
 	* \param [src] source array
@@ -16,7 +16,7 @@ class buffer
 	static void copy(type** dst, u32 dst_offset, type** src, u32 src_offset, u32 size);
 
 	/**
-	* \brief adds all elements from a source array [src] of a definite size [src_size] to end of a destination array [dst] of a definite size [dst_size].
+	* \brief adds all elements from a source array [src] of a definite size [src_size] to end of a destination array [dst] of a definite size [dst_size]
 	* \param [dst] destination array
 	* \param [dst_size] destination array's size
 	* \param [src] source array
@@ -27,7 +27,7 @@ class buffer
 	static u32 add(type** dst, u32 dst_size, type** src, u32 src_size);
 
 	/**
-	* \brief includes all elements from a source array [src] of a definite size [src_size] to a destination array [dst] of a definite size [dst_size] into definite range [from \ to].
+	* \brief includes all elements from a source array [src] of a definite size [src_size] to a destination array [dst] of a definite size [dst_size] into definite range [from \ to]
 	* \param [dst] destination array
 	* \param [dst_size] destination array's size
 	* \param [src] source array
@@ -38,6 +38,17 @@ class buffer
 	*/
 	template <typename type>
 	static u32 inc(type** dst, u32 dst_size, type** src, u32 src_size, u32 from, u32 to);
+
+	/**
+	* \brief deletes all elements in a destination array [dst] of a definite size [dst_size] into definite range [from \ to]
+	* \param [dst] destination array
+	* \param [dst_size] destination array's size
+	* \param [from] range's begin index
+	* \param [to] range's end index
+	* \returns destination array's size after operation
+	*/
+	template <typename type>
+	static u32 del(type** dst, u32 dst_size, u32 from, u32 to);
 };
 
 template <typename type>
@@ -79,4 +90,18 @@ u32 buffer::inc(type** dst, u32 dst_size, type** src, u32 src_size, u32 from, u3
 	*dst = dst_array;
 
 	return dst_size + src_size - (to - from);
+}
+
+template <typename type>
+u32 buffer::del(type** dst, u32 dst_size, u32 from, u32 to)
+{
+	type* dst_array = new type[dst_size - (to - from)];
+
+	copy(&dst_array, 0, dst, 0, from);
+	copy(&dst_array, from, dst, to, dst_size - to);
+
+	if (*dst != nullptr) delete[](*dst);
+	*dst = dst_array;
+
+	return dst_size - (to - from);
 }
