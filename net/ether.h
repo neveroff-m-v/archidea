@@ -1,0 +1,3 @@
+class ether_frame
+{
+};
