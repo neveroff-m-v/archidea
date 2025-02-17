@@ -20,7 +20,10 @@ namespace gpio_output_type
 {
 	enum
 	{
+		/// gpio output type push pull
 		push_pull = 0x0,
+
+		/// gpio output type open drain
 		open_drain = 0x1
 	};
 }
@@ -29,9 +32,16 @@ namespace gpio_output_speed
 {
 	enum
 	{
+		/// gpio speed low
 		low = 0x0,
+
+		/// gpio speed medium
 		medium = 0x1,
+
+		/// gpio speed high
 		high = 0x2,
+
+		/// gpio speed very high
 		very_high = 0x3
 	};
 }
@@ -40,8 +50,13 @@ namespace gpio_pull
 {
 	enum
 	{
+		/// gpio pull none
 		none = 0x0,
+
+		/// gpio pull-up
 		pullup = 0x1,
+
+		/// gpio pull-down
 		pulldown = 0x2
 	};
 }
@@ -50,7 +65,10 @@ namespace gpio_lock
 {
 	enum
 	{
+		/// gpio unlock configuration
 		unlock = 0x0,
+
+		/// gpio lock configuration
 		lock = 0x1
 	};
 }
@@ -59,22 +77,53 @@ namespace gpio_alternative_function
 {
 	enum
 	{
-		system = 0,
+		/// system
+		func_0 = 0,
 
-		timer_1 = 1,
-		timer_2 = 1,
+		/// timer 1...2
+		func_1 = 1,
 
-		timer_3 = 2,
-		timer_4 = 2,
-		timer_5 = 2,
+		/// timer 3...5
+		func_2 = 2,
 
-		timer_9 = 3,
-		timer_10 = 3,
-		timer_11 = 3,
+		/// timer 9...11
+		func_3 = 3,
 
-		i2c_1 = 4,
-		i2c_2 = 4,
-		i2c_3 = 4,
+		/// i2c 1...3
+		func_4 = 4,
+
+		/// spi 1...4
+		func_5 = 5,
+
+		/// spi 3
+		func_6 = 6,
+
+		/// usart 1...2
+		func_7 = 7,
+
+		/// usart 6
+		func_8 = 8,
+
+		/// i2c 2...3
+		func_9 = 9,
+
+		/// otg_fs
+		func_10 = 10,
+
+		/// none
+		func_11 = 11,
+
+		/// sdio
+		func_12 = 12,
+
+		/// none
+		func_13 = 13,
+
+		/// none
+		func_14 = 14,
+
+		/// eventout
+		func_15 = 15,
 	};
 }
 
@@ -83,6 +132,21 @@ namespace gpio_pin
 	enum
 	{
 		pin_0 = 0x00000001,
+		pin_1 = 0x00000002,
+		pin_2 = 0x00000004,
+		pin_3 = 0x00000008,
+		pin_4 = 0x00000010,
+		pin_5 = 0x00000020,
+		pin_6 = 0x00000040,
+		pin_7 = 0x00000080,
+		pin_8 = 0x00000100,
+		pin_9 = 0x00000200,
+		pin_10 = 0x00000400,
+		pin_11 = 0x00000800,
+		pin_12 = 0x00001000,
+		pin_13 = 0x00002000,
+		pin_14 = 0x00004000,
+		pin_15 = 0x00008000,
 	};
 }
 
@@ -106,10 +170,13 @@ public:
 	static void get_config(gpio_reg* reg, gpio_config* conf);
 	static void set_config(gpio_reg* reg, gpio_config* conf);
 
-	static void set(gpio_reg* reg, u32 data);
-	static void set_0(gpio_reg* reg, u32 mask);
-	static void set_1(gpio_reg* reg, u32 mask);
-	static void set_r(gpio_reg* reg, u32 mask);
+	static inline void get_data(gpio_reg* reg, u32* data);
+	static inline void set_data(gpio_reg* reg, u32* data);
+
+	static inline u32 get(gpio_reg* reg, u32 mask);
+	static inline void set_0(gpio_reg* reg, u32 mask);
+	static inline void set_1(gpio_reg* reg, u32 mask);
+	static inline void set_r(gpio_reg* reg, u32 mask);
 };
 
 void gpio_driver::get_config(gpio_reg* reg, gpio_config* conf)
@@ -122,7 +189,7 @@ void gpio_driver::get_config(gpio_reg* reg, gpio_config* conf)
 	u32 alternative_function_low = reg->afrl;
 	u32 alternative_function_high = reg->afrh;
 
-	for (u8 i = 0; i < 16; i++)
+	for (i8 i = 0; i < 16; i++)
 	{
 		conf->pin[i].mode = mode;
 		mode >>= 2;
@@ -140,7 +207,7 @@ void gpio_driver::get_config(gpio_reg* reg, gpio_config* conf)
 		lock >>= 1;
 	}
 
-	for (u8 i = 0; i < 8; i++)
+	for (i8 i = 0; i < 8; i++)
 	{
 		conf->pin[i].alternative_function = alternative_function_low;
 		alternative_function_low >>= 4;
@@ -160,31 +227,31 @@ void gpio_driver::set_config(gpio_reg* reg, gpio_config* conf)
 	u32 alternative_function_low = 0x0;
 	u32 alternative_function_high = 0x0;
 
-	for (u8 i = 15; i >= 0; i--)
+	for (i8 i = 15; i >= 0; i--)
 	{
-		mode |= conf->pin[i].mode;
 		mode <<= 2;
+		mode |= conf->pin[i].mode;
 
-		output_type |= conf->pin[i].output_type;
 		output_type <<= 1;
-
-		output_speed |= conf->pin[i].output_speed;
+		output_type |= conf->pin[i].output_type;
+		
 		output_speed <<= 2;
-
-		pull |= conf->pin[i].pull;
+		output_speed |= conf->pin[i].output_speed;
+		
 		pull <<= 2;
+		pull |= conf->pin[i].pull;
 
-		lock |= conf->pin[i].lock;
 		lock <<= 1;
+		lock |= conf->pin[i].lock;
 	}
 
-	for (u8 i = 7; i >= 0; i--)
+	for (i8 i = 7; i >= 0; i--)
 	{
-		alternative_function_low = conf->pin[i].alternative_function;
 		alternative_function_low <<= 4;
+		alternative_function_low = conf->pin[i].alternative_function;
 
-		alternative_function_high = conf->pin[i + 8].alternative_function;
 		alternative_function_high <<= 4;
+		alternative_function_high = conf->pin[i + 8].alternative_function;
 	}
 
 	reg->moder = mode;
@@ -196,9 +263,19 @@ void gpio_driver::set_config(gpio_reg* reg, gpio_config* conf)
 	reg->afrh = alternative_function_high;
 }
 
-void gpio_driver::set(gpio_reg* reg, u32 data)
+void gpio_driver::get_data(gpio_reg* reg, u32* data)
 {
-	reg->odr = data;
+	(*data) = reg->idr;
+}
+
+void gpio_driver::set_data(gpio_reg* reg, u32* data)
+{
+	reg->odr = (*data);
+}
+
+u32 gpio_driver::get(gpio_reg* reg, u32 mask)
+{
+	return (reg->idr) & mask;
 }
 
 void gpio_driver::set_0(gpio_reg* reg, u32 mask)

@@ -13,6 +13,9 @@ namespace index
 class buffer
 {
 public:
+	template <typename type>
+	static void clear(type** arr);
+
 	/**
 	* \brief copies a specified number of elements [size] from a source array [src] starting at a definite offset [src_offset] to a destination array [dst] starting at a definite offset [dst_offset]
 	* \param [dst] destination array
@@ -83,6 +86,15 @@ public:
 	template <typename type>
 	static u32 find(type** dst, u32 dst_size, u32 dst_offset, type** src, u32 src_size);
 };
+
+template <typename type>
+static void clear(type** arr)
+{
+	if (*arr != nullptr)
+	{
+		delete[](*arr);
+	}
+}
 
 template <typename type>
 void buffer::copy(type** dst, u32 dst_offset, type** src, u32 src_offset, u32 size)
