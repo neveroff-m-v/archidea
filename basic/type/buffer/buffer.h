@@ -50,6 +50,17 @@ public:
 	static u32 inc(type** dst, u32 dst_size, type** src, u32 src_size, u32 from, u32 to);
 
 	/**
+	* \brief extracts all elements from a source array [src] to a destination array [dst] into definite range [from \ to]
+	* \param [dst] destination array
+	* \param [src] source array
+	* \param [from] range's begin index
+	* \param [to] range's end index
+	* \returns destination array's size after operation
+	*/
+	template <typename type>
+	static u32 ext(type** dst, type** src, u32 from, u32 to);
+
+	/**
 	* \brief deletes all elements in a destination array [dst] of a definite size [dst_size] into definite range [from \ to]
 	* \param [dst] destination array
 	* \param [dst_size] destination array's size
@@ -60,8 +71,14 @@ public:
 	template <typename type>
 	static u32 del(type** dst, u32 dst_size, u32 from, u32 to);
 
+	static u32 replace();
+	static u32 replace_all();
+
 	template <typename type>
 	static u32 index(type** dst, u32 dst_size, u32 dst_offset, type** src, u32 src_size);
+
+	template <typename type>
+	static u32 index_last(type** dst, u32 dst_size, u32 dst_offset, type** src, u32 src_size);
 
 	template <typename type>
 	static u32 find(type** dst, u32 dst_size, u32 dst_offset, type** src, u32 src_size);
@@ -109,6 +126,19 @@ u32 buffer::inc(type** dst, u32 dst_size, type** src, u32 src_size, u32 from, u3
 }
 
 template <typename type>
+u32 buffer::ext(type** dst, type** src, u32 from, u32 to)
+{
+	type* dst_array = new type[to - from];
+
+	copy(&dst_array, 0, src, from, to - from);
+
+	if (*dst != nullptr) delete[](*dst);
+	*dst = dst_array;
+
+	return to - from;
+}
+
+template <typename type>
 u32 buffer::del(type** dst, u32 dst_size, u32 from, u32 to)
 {
 	type* dst_array = new type[dst_size - (to - from)];
@@ -127,6 +157,28 @@ u32 buffer::index(type** dst, u32 dst_size, u32 dst_offset, type** src, u32 src_
 {
 	dst_size -= src_size;
 	for (u32 i = dst_offset; i < dst_size; i++)
+	{
+		for (u32 j = 0; j < src_size; j++)
+		{
+			if ((*dst)[i + j] != (*src)[j])
+			{
+				break;
+			}
+			if (j + 1 == src_size) 
+			{
+				return i;
+			}
+		}
+	}
+
+	return index::not_found;
+}
+
+template <typename type>
+u32 buffer::index_last(type** dst, u32 dst_size, u32 dst_offset, type** src, u32 src_size)
+{
+	dst_size -= src_size;
+	for (u32 i = dst_offset; i >= 0; i--)
 	{
 		for (u32 j = 0; j < src_size; j++)
 		{

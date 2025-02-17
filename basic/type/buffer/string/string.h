@@ -8,16 +8,18 @@ public:
 	string(u32 size);
 	string(const c8* arr);
 
+	static string empty;
+
 	c8& operator[] (u32 index);
 
-	void u8 is_empty();
+	logic is_empty();
 
-	void add(c8 c);
-	void add(c8* arr, u32 size);
 	void add(string* str);
-
-	void sub(string* str, u32 from, u32 to);
+	void inc(string* str, u32 from, u32 to);
+	void ext(string* str, u32 from, u32 to);
 	void del(u32 from, u32 to);
+
+	void split(list<string>* lst, string str);
 
 	/// array of character utf-8
 	c8* arr;
@@ -49,15 +51,31 @@ string::string(const c8* arr)
 	}
 }
 
+string string::empty = string();
+
 c8& string::operator[](u32 index)
 {
 	return arr[index];
 }
 
-void string::del(string* str, u32 from, u32 to)
+logic string::is_empty()
 {
-	*str = string(from, to);
-	size = buffer::del(&arr, size, from, to);
+	return size == 0;
+}
+
+void string::add(string* str)
+{
+	size = buffer::add(&arr, size, &(str->arr), str->size);
+}
+
+void string::inc(string* str, u32 from, u32 to)
+{
+	size = buffer::inc(&arr, size, &(str->arr), str->size, from, to);
+}
+
+void string::ext(string* str, u32 from, u32 to)
+{
+	size = buffer::ext(&arr, &(str->arr), from, to);
 }
 
 void string::del(u32 from, u32 to)
