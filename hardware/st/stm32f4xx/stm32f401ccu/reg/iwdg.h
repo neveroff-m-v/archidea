@@ -1,11 +1,10 @@
 /**
-  * @brief Independent WATCHDOG
+  * @brief independent watchdog
   */
-
-typedef struct
+struct iwdt_reg
 {
-	__IO uint32_t KR;   /*!< IWDG Key register,       Address offset: 0x00 */
-	__IO uint32_t PR;   /*!< IWDG Prescaler register, Address offset: 0x04 */
-	__IO uint32_t RLR;  /*!< IWDG Reload register,    Address offset: 0x08 */
-	__IO uint32_t SR;   /*!< IWDG Status register,    Address offset: 0x0C */
-} IWDG_TypeDef;
+	volatile u32 kr;   /*!< IWDG Key register,       Address offset: 0x00 */
+	volatile u32 pr;   /*!< IWDG Prescaler register, Address offset: 0x04 */
+	volatile u32 rlr;  /*!< IWDG Reload register,    Address offset: 0x08 */
+	volatile u32 sr;   /*!< IWDG Status register,    Address offset: 0x0C */
+};

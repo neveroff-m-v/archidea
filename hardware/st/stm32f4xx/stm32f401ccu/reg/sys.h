@@ -1,8 +1,6 @@
-
 /**
-  * @brief System configuration controller
+  * @brief system configuration controller (sysconfig)
   */
-
 typedef struct
 {
 	__IO uint32_t MEMRMP;       /*!< SYSCFG memory remap register,                      Address offset: 0x00      */

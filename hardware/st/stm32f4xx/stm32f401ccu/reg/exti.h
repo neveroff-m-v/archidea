@@ -1,7 +1,6 @@
 /**
-  * @brief External Interrupt/Event Controller
+  * @brief external interrupt / event (exti) controller register
   */
-
 typedef struct
 {
 	__IO uint32_t IMR;    /*!< EXTI Interrupt mask register,            Address offset: 0x00 */

@@ -1,17 +1,32 @@
-
 /**
-  * @brief Serial Peripheral Interface
+  * @brief serial peripheral interface (spi) register
   */
-
-typedef struct
+struct spi_reg
 {
-	__IO uint32_t CR1;        /*!< SPI control register 1 (not used in I2S mode),      Address offset: 0x00 */
-	__IO uint32_t CR2;        /*!< SPI control register 2,                             Address offset: 0x04 */
-	__IO uint32_t SR;         /*!< SPI status register,                                Address offset: 0x08 */
-	__IO uint32_t DR;         /*!< SPI data register,                                  Address offset: 0x0C */
-	__IO uint32_t CRCPR;      /*!< SPI CRC polynomial register (not used in I2S mode), Address offset: 0x10 */
-	__IO uint32_t RXCRCR;     /*!< SPI RX CRC register (not used in I2S mode),         Address offset: 0x14 */
-	__IO uint32_t TXCRCR;     /*!< SPI TX CRC register (not used in I2S mode),         Address offset: 0x18 */
-	__IO uint32_t I2SCFGR;    /*!< SPI_I2S configuration register,                     Address offset: 0x1C */
-	__IO uint32_t I2SPR;      /*!< SPI_I2S prescaler register,                         Address offset: 0x20 */
-} SPI_TypeDef;
+	/// control register 1 (not used in i2s mode)
+	volatile u32 cr1;
+
+	/// control register 2
+	volatile u32 cr2;
+
+	/// status register
+	volatile u32 sr;
+
+	/// data register
+	volatile u32 dr;
+
+	/// crc polynomial register (not used in i2s mode)
+	volatile u32 crcpr;
+
+	/// rx crc register (not used in i2s mode)
+	volatile u32 rx_crcr;
+
+	/// tx crc register (not used in i2s mode)
+	volatile u32 tx_crcr;
+
+	/// i2s configuration register
+	volatile u32 i2s_cfgr;
+
+	/// i2s prescaler register
+	volatile u32 i2s_pr;
+};

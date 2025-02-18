@@ -131,43 +131,105 @@ namespace gpio_pin
 {
 	enum
 	{
-		pin_0 = 0x00000001,
-		pin_1 = 0x00000002,
-		pin_2 = 0x00000004,
-		pin_3 = 0x00000008,
-		pin_4 = 0x00000010,
-		pin_5 = 0x00000020,
-		pin_6 = 0x00000040,
-		pin_7 = 0x00000080,
-		pin_8 = 0x00000100,
-		pin_9 = 0x00000200,
-		pin_10 = 0x00000400,
-		pin_11 = 0x00000800,
-		pin_12 = 0x00001000,
-		pin_13 = 0x00002000,
-		pin_14 = 0x00004000,
-		pin_15 = 0x00008000,
+		/// pin 0
+		pin_0 = 0x0001,
+
+		/// pin 1
+		pin_1 = 0x0002,
+
+		/// pin 2
+		pin_2 = 0x0004,
+
+		/// pin 3
+		pin_3 = 0x0008,
+
+		/// pin 4
+		pin_4 = 0x0010,
+
+		/// pin 5
+		pin_5 = 0x0020,
+
+		/// pin 6
+		pin_6 = 0x0040,
+
+		/// pin 7
+		pin_7 = 0x0080,
+
+		/// pin 8
+		pin_8 = 0x0100,
+
+		/// pin 9
+		pin_9 = 0x0200,
+
+		/// pin 10
+		pin_10 = 0x0400,
+
+		/// pin 11
+		pin_11 = 0x0800,
+
+		/// pin 12
+		pin_12 = 0x1000,
+
+		/// pin 13
+		pin_13 = 0x2000,
+
+		/// pin 14
+		pin_14 = 0x4000,
+
+		/// pin 15
+		pin_15 = 0x8000,
 	};
 }
 
+/**
+* \brief gpio configuration
+*/
 struct gpio_config
 {
 	struct gpio_config_pin
 	{
+		/// gpio mode
 		u8 mode : 2;
+
+		/// gpio output type
 		u8 output_type : 1;
+
+		/// gpio output speed
 		u8 output_speed : 2;
+
+		/// gpio pull-up / pull-down
 		u8 pull : 2;
+
+		/// gpio lock configuration
 		u8 lock : 1;
+
+		/// gpio alternative function
 		u8 alternative_function : 4;
 	}
+	/// pins
 	pin[16];
 };
 
+/**
+* \brief general purpose input / output (gpio) driver
+*/
 class gpio_driver
 {
 public:
+	/**
+	* \brief gets gpio configuration [conf] from definite register [reg]
+	* \param [reg] gpio register
+	* \param [conf] gpio configuration
+	* \returns none
+	*/
 	static void get_config(gpio_reg* reg, gpio_config* conf);
+
+	/**
+	* \brief sets gpio configuration [conf] into definite register [reg]
+	* \param [reg] gpio register
+	* \param [conf] gpio configuration
+	* \returns none
+	*/
 	static void set_config(gpio_reg* reg, gpio_config* conf);
 
 	static inline void get_data(gpio_reg* reg, u32* data);

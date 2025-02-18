@@ -1,7 +1,14 @@
-typedef struct
+struct debug_mcu_reg
 {
-	__IO uint32_t IDCODE;  /*!< MCU device ID code,               Address offset: 0x00 */
-	__IO uint32_t CR;      /*!< Debug MCU configuration register, Address offset: 0x04 */
-	__IO uint32_t APB1FZ;  /*!< Debug MCU APB1 freeze register,   Address offset: 0x08 */
-	__IO uint32_t APB2FZ;  /*!< Debug MCU APB2 freeze register,   Address offset: 0x0C */
-} DBGMCU_TypeDef;
+	/// mcu device id code
+	volatile u32 mcu_id;
+
+	/// debug mcu configuration register
+	volatile u32 cr;
+
+	/// debug mcu apb1 freeze register
+	volatile u32 apb1_fz;
+
+	/// debug mcu apb2 freeze register
+	volatile u32 apb2_fz;
+};
