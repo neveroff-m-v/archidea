@@ -6,6 +6,7 @@ struct hardware_reg
 	/// reset and clock control (rcc)
 	rcc_reg* rcc = (rcc_reg*) register_map::rcc;
 
+	/// flash
 	flash_reg* flash = (flash_reg*) register_map::flash_r;
 
 	struct hardware_dma_reg
@@ -35,7 +36,20 @@ struct hardware_reg
 	}
 	dma;
 
+	/// crc calculation unit register
+	crc_reg* crc = (crc_reg*) register_map::crc;
+
+	/// debug mcu
 	debug_mcu_reg* debug_mcu = (debug_mcu_reg*) 0x00000000;
+
+	/// external interrupt / event (exti)
+	exti_reg exti = (exti_reg*) register_map::exti;
+
+	/// power control
+	pwr_reg* pwr = (pwr_reg*) register_map::pwr;
+
+	/// real-time clock register
+	rtc_reg* rtc = (rtc_reg*) register_map::rtc;
 
 	/// analog to digital converter (adc)
 	struct hardware_adc_reg

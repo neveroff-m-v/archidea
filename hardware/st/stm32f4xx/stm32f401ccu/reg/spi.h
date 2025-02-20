@@ -1,6 +1,6 @@
 /**
-  * @brief serial peripheral interface (spi) register
-  */
+* \brief serial peripheral interface (spi) register
+*/
 struct spi_reg
 {
 	/// control register 1 (not used in i2s mode)

@@ -88,7 +88,7 @@ public:
 };
 
 template <typename type>
-static void clear(type** arr)
+void buffer::clear(type** arr)
 {
 	if (*arr != nullptr)
 	{

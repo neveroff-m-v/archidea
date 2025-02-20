@@ -19,6 +19,9 @@ public:
 	void ext(string* str, u32 from, u32 to);
 	void del(u32 from, u32 to);
 
+	u32 index(string* str, u32 start_index = 0);
+	u32 find(string* str, u32 start_index = 0);
+
 	void split(list<string>* lst, string* separator);
 
 	/// array of character utf-8
@@ -53,7 +56,7 @@ string::string(const c8* arr)
 
 string::~string()
 {
-	buffer::clear(&arr);
+	//buffer::clear(&arr);
 }
 
 c8& string::operator[](u32 index)
@@ -86,6 +89,36 @@ void string::del(u32 from, u32 to)
 	size = buffer::del(&arr, size, from, to);
 }
 
+u32 string::index(string* str, u32 start_index)
+{
+	return buffer::index(&arr, size, start_index, &(str->arr), str->size);
+}
+
+u32 string::find(string* str, u32 start_index)
+{
+	return buffer::find(&arr, size, start_index, &(str->arr), str->size);
+}
+
 void string::split(list<string>* lst, string* separator)
 {
+	u32 from = 0;
+	u32 to = 0;
+	string str;
+
+	lst = new list<string>(0);
+	for(;;)
+	{
+		to = index(separator, from);
+		if (to != index::not_found)
+		{
+			ext(&str, from, to);
+			lst->add(&str);
+
+			from = to + separator->size;
+		}
+		else
+		{
+			break;
+		}
+	}
 }

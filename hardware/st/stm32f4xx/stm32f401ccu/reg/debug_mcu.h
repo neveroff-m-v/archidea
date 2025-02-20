@@ -1,3 +1,6 @@
+/**
+* \brief debug mcu register
+*/
 struct debug_mcu_reg
 {
 	/// mcu device id code

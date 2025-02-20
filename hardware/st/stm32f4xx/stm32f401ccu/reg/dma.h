@@ -1,20 +1,41 @@
 /**
-  * @brief direct memory access (dma) controller register
-  */
+* \brief direct memory access (dma) stream register
+*/
 struct dma_stream_reg
 {
-	volatile u32 cr;     /*!< DMA stream x configuration register      */
-	volatile u32 ndtr;   /*!< DMA stream x number of data register     */
-	volatile u32 par;    /*!< DMA stream x peripheral address register */
-	volatile u32 m0_adr;   /*!< DMA stream x memory 0 address register   */
-	volatile u32 m1_adr;   /*!< DMA stream x memory 1 address register   */
-	volatile u32 fcr;    /*!< DMA stream x FIFO control register       */
+	/// configuration register
+	volatile u32 cr;
+
+	/// number of data register
+	volatile u32 ndtr;
+
+	/// peripheral address register
+	volatile u32 par;
+
+	/// memory 0 address register
+	volatile u32 m0_adr;
+
+	/// memory 1 address register
+	volatile u32 m1_adr;
+
+	/// fifo control register
+	volatile u32 fcr;
 };
 
+/**
+* \brief direct memory access (dma) register
+*/
 struct dma_reg
 {
-	volatile u32 lisr;   /*!< DMA low interrupt status register,      Address offset: 0x00 */
-	volatile u32 hisr;   /*!< DMA high interrupt status register,     Address offset: 0x04 */
-	volatile u32 lifcr;  /*!< DMA low interrupt flag clear register,  Address offset: 0x08 */
-	volatile u32 hifcr;  /*!< DMA high interrupt flag clear register, Address offset: 0x0C */
+	/// low interrupt status register
+	volatile u32 lisr;
+
+	/// high interrupt status register
+	volatile u32 hisr;
+
+	/// low interrupt flag clear register
+	volatile u32 lifcr;
+
+	/// high interrupt flag clear register
+	volatile u32 hifcr;
 };

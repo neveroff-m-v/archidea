@@ -1,6 +1,6 @@
 /**
-  * @brief reset and clock control register
-  */
+* \brief reset and clock control register
+*/
 struct rcc_reg
 {
 	/// control register
